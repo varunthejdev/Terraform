@@ -12,6 +12,11 @@ data "aws_vpc" "vpc" {
   }
 }
 
+variable "port" {
+  type        = number
+  description = "which to port you have to open"
+}
+
 resource "aws_security_group" "default" {
   count = "${length(var.functions)}"
 
@@ -26,7 +31,15 @@ resource "aws_security_group" "default" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow all traffic"
   }
-
+    
+ ingress {
+    to_port = var.port
+    from_port = var.port
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow all traffic"
+  }
+    
   egress {
     to_port = 0
     from_port = 0
