@@ -1,0 +1,12 @@
+Hi @varun,
+I have done the script
+here i have enclosed steps to done
+
+Step1
+terraform.exe plan -var="port=80"
+
+Step2
+terraform.exe apply -var="port=80"
+
+Also i have enclosed screen shot for your reference.
+i done this script mrg itself
