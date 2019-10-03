@@ -1,0 +1,5 @@
+type,protocol,from,to,cidr_blocks,comment
+ingress,tcp,80,80,0.0.0.0/0,Httpd test
+ingress,tcp,443,443,0.0.0.0/0,HTTPS
+ingress,tcp,22,22,0.0.0.0/0,SSH
+ingress,tcp,25,25,0.0.0.0/0,SMTP
