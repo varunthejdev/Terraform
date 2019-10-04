@@ -12,39 +12,22 @@ data "aws_vpc" "vpc" {
   }
 }
 
-variable "port" {
-  type        = number
-  description = "which to port you have to open"
+locals {
+  security_group_rulescsv = csvdecode(file("${path.module}/var.csv"))
 }
 
 resource "aws_security_group" "default" {
-  count = "${length(var.functions)}"
-
-  name = "${format("%s_%s_SG_%s_%s", local.account_abbr, var.security_group_map[local.account_abbr], local.service_name, var.functions[count.index])}"
-  description = "${format("Default security group for %s - %s", local.service_name, var.functions[count.index])}"
-  vpc_id = "${data.aws_vpc.vpc.id}"
-
-  ingress {
-    to_port = 0
-    from_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow all traffic"
-  }
-    
- ingress {
-    to_port = var.port
-    from_port = var.port
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow all traffic"
-  }
-    
-  egress {
-    to_port = 0
-    from_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow all traffic"
-  }
+#count = "${length(var.functions)}"
+count = length(local.security_group_rules)
+name = "${format("%s_%s_SG_%s_%s", local.account_abbr, var.security_group_map[local.account_abbr], local.service_name, var.functions[count.index])}"
+description = "${format("Default security group for %s - %s", local.service_name, var.functions[count.index])}"
+vpc_id = "${data.aws_vpc.vpc.id}"
+  type              = local.security_group_rules[count.index].type
+  protocol          = local.security_group_rules[count.index].protocol
+  from_port         = local.security_group_rules[count.index].from
+  to_port           = local.security_group_rules[count.index].to
+  cidr_blocks       = [local.security_group_rules[count.index].cidr_blocks]
+  description       = local.security_group_rules[count.index].comment
+  
+  
 }
