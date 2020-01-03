@@ -1,0 +1,6 @@
+name,priority,direction,access,protocol,source_port_range,destination_port_range,source_address_prefix,destination_address_prefix,resource_group_name,network_security_group_name
+elavarasan,111,Inbound,Allow,TCP,22,*,*,*,portalapiazure,elansg
+elavarasan123,1222,Inbound,Allow,TCP,23,*,*,*,portalapiazure,elansg
+elavarasan321,1023,Inbound,Allow,TCP,25,*,*,*,portalapiazure,elansg
+elavarasan3,2000,Inbound,Allow,TCP,587,*,*,*,portalapiazure,elansg
+checkiing,112,Inbound,Allow,TCP,465,*,*,*,portalapiazure,elansg
